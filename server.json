@@ -1,0 +1,22 @@
+{
+  "establishments": [
+    {
+      "name": "Mercadao Alvorada",
+      "statusOperation": "Ativo",
+      "queue": 8,
+      "coordinates": {
+        "latitude": -23.548948001355416,
+        "longitude": -46.8722397275269
+      }
+    },
+    {
+      "name": "Outro Mercadao Perto",
+      "statusOperation": "Fechado",
+      "queue": 0,
+      "coordinates": {
+        "latitude": -23.549191,
+        "longitude": -46.873376
+      }
+    }
+  ]
+}
