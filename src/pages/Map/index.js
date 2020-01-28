@@ -24,31 +24,28 @@ import cabeleireiroImg from '../../assets/images/cabeleireiro.png';
 import establishmentImg from '../../assets/images/establishment.jpeg';
 
 export default function MapPage() {
+  const DISTANCE = 300;
+
   const delta = {
-    longitudeDelta: 0.006000436842441559,
-    latitudeDelta: 0.009136713084487269,
+    longitudeDelta: 0.003,
+    latitudeDelta: 0.003,
   };
 
   const [visible, setVisible] = useState(false);
+
   const [userRegion, setUserRegion] = useState({
     ...delta,
     latitude: -10,
     longitude: -10,
   });
+
   const [region, setRegion] = useState({
     ...delta,
     longitude: -10.0,
     latitude: -10.0,
   });
 
-  const latitude = -23.548948;
-  const longitude = -46.87224;
-
-  const establishments = [
-    [-23.549292, -46.873335],
-    [-23.548299, -46.871897],
-    [-23.549587, -46.872069],
-  ];
+  const [establishments, setEstablishments] = useState([]);
 
   useEffect(() => {
     function getLocationPermission() {
@@ -76,6 +73,23 @@ export default function MapPage() {
 
     loadUserPostition();
   }, []);
+
+  useEffect(() => {
+    async function loadEstablishmentsPosition() {
+      const coordinate = `${region.latitude},${region.longitude}`;
+      const {data} = await api.get(
+        `/coordinates/${coordinate}?distance=${DISTANCE}`,
+      );
+
+      if (!data.length) return;
+
+      const geolocations = data.map(geo => geo.location.coordinates);
+
+      setEstablishments(geolocations);
+    }
+
+    loadEstablishmentsPosition();
+  }, [region]);
 
   const handleNewRegion = useCallback(
     region => {

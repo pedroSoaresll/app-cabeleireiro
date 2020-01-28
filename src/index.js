@@ -1,6 +1,7 @@
 import React from 'react';
 import Routes from './routes';
 import {StatusBar, Text} from 'react-native';
+import './config/reactotron';
 
 import 'react-native-gesture-handler';
 
