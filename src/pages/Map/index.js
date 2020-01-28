@@ -2,26 +2,11 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {View, PermissionsAndroid} from 'react-native';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import Modal from 'react-native-modal';
-
 import api from '../../services/api';
-
-import {
-  Map,
-  MarkerIcon,
-  SearchEstablishment,
-  AreaModal,
-  AreaEstablishmentInfo,
-  AreaQueue,
-  EstablishmentImage,
-  EstablishmentName,
-  EstablishmentQueue,
-  EstablishmentStatusOperation,
-} from './styles';
-
+import {Map, MarkerIcon, SearchEstablishment} from './styles';
 import userImg from '../../assets/images/user.png';
+import ModalEstablishment from '../../components/ModalEstablishment';
 import cabeleireiroImg from '../../assets/images/cabeleireiro.png';
-import establishmentImg from '../../assets/images/establishment.jpeg';
 
 export default function MapPage() {
   const DISTANCE = 300;
@@ -46,6 +31,8 @@ export default function MapPage() {
   });
 
   const [establishments, setEstablishments] = useState([]);
+
+  const [queue, setQueue] = useState({});
 
   useEffect(() => {
     function getLocationPermission() {
@@ -83,9 +70,7 @@ export default function MapPage() {
 
       if (!data.length) return;
 
-      const geolocations = data.map(geo => geo.location.coordinates);
-
-      setEstablishments(geolocations);
+      setEstablishments(data);
     }
 
     loadEstablishmentsPosition();
@@ -98,7 +83,9 @@ export default function MapPage() {
     [region],
   );
 
-  function loadEstablishment(establishment) {
+  async function loadEstablishment(establishmentId) {
+    const {data} = await api.get(`/establishments/${establishmentId}/queue`);
+    setQueue(data);
     setVisible(true);
   }
 
@@ -109,29 +96,28 @@ export default function MapPage() {
           <MarkerIcon source={userImg} />
         </Marker>
 
-        {establishments.map(([estabLat, estabLong]) => (
-          <Marker
-            key={estabLat + estabLong}
-            coordinate={{latitude: estabLat, longitude: estabLong}}
-            onPress={() => loadEstablishment(estabLat)}>
-            <MarkerIcon source={cabeleireiroImg} />
-          </Marker>
-        ))}
+        {establishments.map(
+          ({
+            establishmentId,
+            location: {
+              coordinates: [estabLat, estabLong],
+            },
+          }) => (
+            <Marker
+              key={estabLat + estabLong}
+              coordinate={{latitude: estabLat, longitude: estabLong}}
+              onPress={() => loadEstablishment(establishmentId)}>
+              <MarkerIcon source={cabeleireiroImg} />
+            </Marker>
+          ),
+        )}
       </Map>
 
-      <Modal isVisible={visible} onBackdropPress={() => setVisible(false)}>
-        <AreaModal>
-          <EstablishmentImage source={establishmentImg} />
-          <AreaEstablishmentInfo>
-            <EstablishmentName>Mercadao Alvorada</EstablishmentName>
-            <EstablishmentStatusOperation>Aberto</EstablishmentStatusOperation>
-            <AreaQueue>
-              <EstablishmentQueue>8</EstablishmentQueue>
-            </AreaQueue>
-          </AreaEstablishmentInfo>
-        </AreaModal>
-      </Modal>
-
+      <ModalEstablishment
+        visible={visible}
+        queue={queue}
+        close={() => setVisible(false)}
+      />
       <SearchEstablishment />
     </View>
   );
