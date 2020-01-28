@@ -118,7 +118,7 @@ export default function MapPage() {
         queue={queue}
         close={() => setVisible(false)}
       />
-      <SearchEstablishment />
+      {/* <SearchEstablishment /> */}
     </View>
   );
 }
