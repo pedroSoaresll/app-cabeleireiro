@@ -7,8 +7,9 @@ import {Map, MarkerIcon, SearchEstablishment} from './styles';
 import userImg from '../../assets/images/user.png';
 import ModalEstablishment from '../../components/ModalEstablishment';
 import cabeleireiroImg from '../../assets/images/cabeleireiro.png';
+import LoginButton from '../../components/LoginButton';
 
-export default function MapPage() {
+export default function MapPage({navigation}) {
   const DISTANCE = 300;
 
   const delta = {
@@ -119,6 +120,7 @@ export default function MapPage() {
         close={() => setVisible(false)}
       />
       {/* <SearchEstablishment /> */}
+      <LoginButton navigation={navigation} />
     </View>
   );
 }

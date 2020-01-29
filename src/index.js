@@ -1,11 +1,9 @@
 import React from 'react';
-import Routes from './routes';
-import {StatusBar, Text} from 'react-native';
+import {StatusBar} from 'react-native';
 import './config/reactotron';
-
 import 'react-native-gesture-handler';
 
-// import { Container } from './styles';
+import Routes from './routes';
 
 export default function App() {
   return (
