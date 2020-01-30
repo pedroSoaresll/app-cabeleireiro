@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "emulator": "emulator -avd Nexus_5X_API_29_x86",
+    "proxy": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3001 tcp:3001"
   },
   "dependencies": {
     "@react-native-community/geolocation": "^2.0.2",
