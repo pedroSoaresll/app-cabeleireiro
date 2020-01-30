@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "681660514084",
+    "firebase_url": "https://near-hair-stylist.firebaseio.com",
+    "project_id": "near-hair-stylist",
+    "storage_bucket": "near-hair-stylist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681660514084:android:77e25d46fb1f488599bdb1",
+        "android_client_info": {
+          "package_name": "com.nearhairstylist.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681660514084-uj2pkfcj5a0d2uqa7uggccj0gkbd100i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nearhairstylist.com",
+            "certificate_hash": "0a13157712ed729a636d9458fb65760ebc5d203a"
+          }
+        },
+        {
+          "client_id": "681660514084-7dejurru8g45a8vo6edf7tg4n81grnf2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHZDmWW9Qf_bftnmp9ombN0J5Tzf75pco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681660514084-7dejurru8g45a8vo6edf7tg4n81grnf2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

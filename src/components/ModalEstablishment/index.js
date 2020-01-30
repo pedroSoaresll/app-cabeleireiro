@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
 import establishmentImg from '../../assets/images/establishment.jpeg';
-import io from '../../config/socket-io';
+import io from '../../libs/socket-io';
 
 import {
   AreaModal,
