@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:681660514084:android:77e25d46fb1f488599bdb1",
+        "mobilesdk_app_id": "1:681660514084:android:ce6f1515f6b36a3899bdb1",
         "android_client_info": {
           "package_name": "com.nearhairstylist.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "681660514084-uj2pkfcj5a0d2uqa7uggccj0gkbd100i.apps.googleusercontent.com",
+          "client_id": "681660514084-ah980bp7gj9v0a1htd50q53ljqik0v3q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nearhairstylist.com",
-            "certificate_hash": "0a13157712ed729a636d9458fb65760ebc5d203a"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
