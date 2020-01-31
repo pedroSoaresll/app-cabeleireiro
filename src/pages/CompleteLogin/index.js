@@ -11,10 +11,10 @@ import {
   AreaAddreessResult,
 } from './styles';
 
-export default function CompleteLogin() {
+function CompleteLogin() {
   return (
     <Container>
-      <Title>Complete o cadastro para começar:</Title>
+      <Title>Informe seu endereço:</Title>
       <RowBetween style={{marginTop: 16, marginBottom: 16}}>
         <InputSide
           placeholder="Cep"
@@ -53,3 +53,9 @@ export default function CompleteLogin() {
     </Container>
   );
 }
+
+CompleteLogin.navigationOptions = {
+  title: 'Completar cadastro',
+};
+
+export default CompleteLogin;

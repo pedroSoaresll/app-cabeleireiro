@@ -27,7 +27,7 @@ function Login({navigation}) {
         googleUserInfo.user.id,
       );
 
-      const authValue = mountAuthValue(establishment, googleUserInfo);
+      const authValue = mountAuthValue(establishment.data, googleUserInfo);
 
       await AsyncStorage.setItem(
         STORAGE_KEY_ESTABLISHMENT,
