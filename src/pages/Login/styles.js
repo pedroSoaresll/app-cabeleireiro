@@ -10,4 +10,5 @@ export const LoginText = styled.Text`
   font-size: 24px;
   text-align: center;
   font-weight: bold;
+  margin-bottom: 15px;
 `;
