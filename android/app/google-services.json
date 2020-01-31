@@ -8,38 +8,29 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:681660514084:android:ce6f1515f6b36a3899bdb1",
+        "mobilesdk_app_id": "1:681660514084:android:11da936571f59f3399bdb1",
         "android_client_info": {
-          "package_name": "com.nearhairstylist.com"
+          "package_name": "com.nearhairstylist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "681660514084-ah980bp7gj9v0a1htd50q53ljqik0v3q.apps.googleusercontent.com",
+          "client_id": "681660514084-8apd5cs1esq7tkj1qc34i3jtvj2avjjs.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.nearhairstylist.com",
+            "package_name": "com.nearhairstylist",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
-        },
-        {
-          "client_id": "681660514084-7dejurru8g45a8vo6edf7tg4n81grnf2.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAHZDmWW9Qf_bftnmp9ombN0J5Tzf75pco"
+          "current_key": "AIzaSyA5GpQnShJ3mfoUT3waaIE3cCizNWStCoo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "681660514084-7dejurru8g45a8vo6edf7tg4n81grnf2.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

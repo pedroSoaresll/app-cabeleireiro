@@ -1,4 +1,4 @@
-package com.nearhairstylist.com;
+package com.nearhairstylist;
 
 import android.app.Application;
 import android.content.Context;

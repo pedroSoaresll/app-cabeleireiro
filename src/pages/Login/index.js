@@ -42,7 +42,7 @@ function Login({navigate}) {
       <GoogleSigninButton
         style={{width: 192, height: 48}}
         size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
+        color={GoogleSigninButton.Color.Light}
         onPress={handleSignIn}
         disabled={isSigninInProgress}
       />

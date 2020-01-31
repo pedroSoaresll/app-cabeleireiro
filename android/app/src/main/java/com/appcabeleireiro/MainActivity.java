@@ -1,4 +1,4 @@
-package com.nearhairstylist.com;
+package com.nearhairstylist;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
