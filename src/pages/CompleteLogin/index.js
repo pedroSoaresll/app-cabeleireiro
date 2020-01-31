@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   Container,
@@ -12,6 +12,13 @@ import {
 } from './styles';
 
 function CompleteLogin() {
+  const [addressPostalCode, setAddressPostalCode] = useState('');
+  const [addressNumber, setAddressNumber] = useState('');
+  const [addressName, setAddressName] = useState('');
+  const [addressNeighborhood, setAddressNeighborhood] = useState('');
+  const [addressCity, setAddressCity] = useState('');
+  const [addressState, setAddressState] = useState('');
+
   return (
     <Container>
       <Title>Informe seu endereço:</Title>
@@ -21,12 +28,16 @@ function CompleteLogin() {
           keyboardType="number-pad"
           autoCompleteType="postal-code"
           maxLength={8}
+          onChangeText={text => setAddressPostalCode(text)}
+          value={addressPostalCode}
         />
         <InputSide
           placeholder="Número"
           keyboardType="number-pad"
           autoCompleteType="off"
           maxLength={4}
+          onChangeText={text => setAddressNumber(text)}
+          value={addressNumber}
         />
       </RowBetween>
 
@@ -35,18 +46,25 @@ function CompleteLogin() {
       </SearchAddressButton>
 
       <AreaAddreessResult>
-        <Input editable={false} placeholder="Endereço" />
-        <Input editable={false} placeholder="Bairro" style={{marginTop: 16}} />
+        <Input editable={false} placeholder="Endereço" value={addressName} />
+        <Input
+          editable={false}
+          placeholder="Bairro"
+          style={{marginTop: 16}}
+          value={addressNeighborhood}
+        />
         <RowBetween>
           <InputSide
             editable={false}
             placeholder="Cidade"
             style={{marginTop: 16}}
+            value={addressCity}
           />
           <InputSide
             editable={false}
             placeholder="Estado"
             style={{marginTop: 16}}
+            value={addressState}
           />
         </RowBetween>
       </AreaAddreessResult>
