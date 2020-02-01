@@ -28,6 +28,7 @@ export default function ModalEstablishment({visible, close, queue}) {
         setCurrentQueue(socket);
       });
     } else {
+      io.removeAllListeners();
       io.disconnect();
     }
   }, [visible]);
