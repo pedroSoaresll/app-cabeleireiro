@@ -12,7 +12,7 @@ import {
   AreaAddreessResult,
 } from './styles';
 
-function CompleteLogin() {
+function CompleteLogin({navigation}) {
   const [addressPostalCode, setAddressPostalCode] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [addressName, setAddressName] = useState('');
@@ -40,6 +40,12 @@ function CompleteLogin() {
     setAddressNeighborhood(bairro);
     setAddressCity(localidade);
     setAddressState(uf);
+  }
+
+  function handleStart() {
+    // chamar o servico para atualizar os dados de endereco
+    // depois chamar o navigate e limpar o historico de activities passadas
+    navigation.navigate('ManageQueue');
   }
 
   return (
@@ -97,7 +103,7 @@ function CompleteLogin() {
 
       <CustomButton
         enabled={!!addressName}
-        onPress={handleSearchAddress}
+        onPress={handleStart}
         style={{marginTop: 64}}>
         <CustomButtonText>Começar!</CustomButtonText>
       </CustomButton>

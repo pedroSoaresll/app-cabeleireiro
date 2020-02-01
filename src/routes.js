@@ -4,6 +4,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Map from './pages/Map';
 import Login from './pages/Login';
 import CompleteLogin from './pages/CompleteLogin';
+import ManageQueue from './pages/ManageQueue';
 
 const Routes = createAppContainer(
   createStackNavigator(
@@ -11,6 +12,7 @@ const Routes = createAppContainer(
       Map,
       Login,
       CompleteLogin,
+      ManageQueue,
     },
     {
       defaultNavigationOptions: {
