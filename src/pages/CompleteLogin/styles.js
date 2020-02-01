@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {RectButton} from 'react-native-gesture-handler';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
   flex-direction: column;
   margin: 16px;
@@ -31,14 +31,16 @@ export const InputSide = styled(Input)`
   flex-basis: 45%;
 `;
 
-export const SearchAddressButton = styled(RectButton)`
+export const CustomButton = styled(RectButton)`
   margin-bottom: 16px;
   background-color: #7159c1;
   padding: 8px 15px;
   border-radius: 4px;
+
+  opacity: ${props => (props.enabled ? 1 : 0.4)};
 `;
 
-export const SearchAddressButtonText = styled.Text`
+export const CustomButtonText = styled.Text`
   color: #fff;
   text-align: center;
 `;
