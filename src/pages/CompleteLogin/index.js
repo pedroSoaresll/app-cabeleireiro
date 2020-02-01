@@ -50,7 +50,7 @@ function CompleteLogin({navigation}) {
 
   return (
     <Container>
-      <Title>Informe seu endereço:</Title>
+      <Title>Informe o endereço do estabelecimento:</Title>
       <RowBetween style={{marginTop: 16, marginBottom: 16}}>
         <InputSide
           placeholder="Cep"
