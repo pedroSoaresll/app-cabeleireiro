@@ -18,14 +18,16 @@ function ManageQueue() {
 
   useEffect(() => {
     async function loadEstablishment() {
-      const establishmentStored = await AsyncStorage.getItem(
+      let establishmentStored = await AsyncStorage.getItem(
         STORAGE_KEY_ESTABLISHMENT,
       );
 
-      console.tron.log('establishment stored', establishmentStored);
-      setSession(JSON.parse(establishmentStored));
+      establishmentStored = JSON.parse(establishmentStored);
 
-      const {data} = await getQueue(session.app._id);
+      console.tron.log('establishment stored', establishmentStored);
+      setSession(establishmentStored);
+
+      const {data} = await getQueue(establishmentStored.app._id);
       setQueue(data.currentQueue);
     }
 
@@ -33,7 +35,7 @@ function ManageQueue() {
   }, []);
 
   async function handleUpdateQueue(quantity) {
-    const newQueue = parseInt(quantity);
+    const newQueue = parseInt(queue) + quantity;
 
     if (newQueue < 0) return;
 
@@ -49,7 +51,7 @@ function ManageQueue() {
       <AreaQueue>
         <ActionButton
           style={{marginRight: 32}}
-          onPress={() => handleUpdateQueue(queue - 1)}>
+          onPress={() => handleUpdateQueue(-1)}>
           <Icon name="remove" size={64} color="#777" />
         </ActionButton>
 
@@ -57,7 +59,7 @@ function ManageQueue() {
 
         <ActionButton
           style={{marginLeft: 32}}
-          onPress={() => handleUpdateQueue(queue + 1)}>
+          onPress={() => handleUpdateQueue(+1)}>
           <Icon name="add" size={64} color="#777" />
         </ActionButton>
       </AreaQueue>
