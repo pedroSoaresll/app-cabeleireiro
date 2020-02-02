@@ -1,7 +1,13 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {Container, Title, AreaQueue, TextQuantity} from './styles';
+import {
+  Container,
+  Title,
+  AreaQueue,
+  TextQuantity,
+  ActionButton,
+} from './styles';
 
 function ManageQueue() {
   return (
@@ -9,9 +15,15 @@ function ManageQueue() {
       <Title>Controle o número de pessoas na fila de espera:</Title>
 
       <AreaQueue>
-        <Icon name="remove" size={16} color="#333" />
+        <ActionButton style={{marginRight: 32}}>
+          <Icon name="remove" size={64} color="#777" />
+        </ActionButton>
+
         <TextQuantity>0</TextQuantity>
-        <Icon name="add" size={16} color="#333" />
+
+        <ActionButton style={{marginLeft: 32}}>
+          <Icon name="add" size={64} color="#777" />
+        </ActionButton>
       </AreaQueue>
     </Container>
   );
