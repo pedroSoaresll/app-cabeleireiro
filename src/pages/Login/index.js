@@ -20,14 +20,12 @@ function Login({navigation}) {
 
       const googleUserInfo = await GoogleSignin.signIn();
 
-      console.tron.log('google authentication', googleUserInfo);
-
-      const establishment = await create(
+      const {data} = await create(
         googleUserInfo.user.name,
         googleUserInfo.user.id,
       );
 
-      const authValue = mountAuthValue(establishment.data, googleUserInfo);
+      const authValue = mountAuthValue(data.payload, googleUserInfo);
 
       await AsyncStorage.setItem(
         STORAGE_KEY_ESTABLISHMENT,
@@ -35,7 +33,12 @@ function Login({navigation}) {
       );
 
       console.tron.log('auth value', authValue);
-      navigation.navigate('CompleteLogin');
+
+      if (data.existent) {
+        navigation.navigate('ManageQueue');
+      } else {
+        navigation.navigate('CompleteLogin');
+      }
     } catch (error) {
       console.tron.log('erro to signin', error.message);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
