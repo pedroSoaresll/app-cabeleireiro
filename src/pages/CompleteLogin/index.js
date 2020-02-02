@@ -45,7 +45,12 @@ function CompleteLogin({navigation}) {
   function handleStart() {
     // chamar o servico para atualizar os dados de endereco
     // depois chamar o navigate e limpar o historico de activities passadas
-    navigation.navigate('ManageQueue');
+    const resetNavigationActions = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({routeName: 'ManageQueue'})],
+    });
+
+    navigation.dispatch(resetNavigationActions);
   }
 
   return (
