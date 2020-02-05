@@ -5,3 +5,17 @@ export const create = (name, googleId) =>
     name,
     googleId,
   });
+
+export const update = (establishmentId, googleId) => (name, address) =>
+  api.put(
+    `/establishments/${establishmentId}`,
+    {
+      name,
+      address,
+    },
+    {
+      headers: {
+        token: googleId,
+      },
+    },
+  );

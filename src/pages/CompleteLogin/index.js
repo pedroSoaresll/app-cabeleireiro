@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {StackActions, NavigationActions} from 'react-navigation';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
+import {STORAGE_KEY_ESTABLISHMENT} from '../../async-storage';
+import {update as updateEstablishment} from '../../services/establishment';
 
 import {
   Container,
@@ -14,6 +17,7 @@ import {
 } from './styles';
 
 function CompleteLogin({navigation}) {
+  const [establishmentName, setEstablishmentName] = useState('');
   const [addressPostalCode, setAddressPostalCode] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [addressName, setAddressName] = useState('');
@@ -43,9 +47,27 @@ function CompleteLogin({navigation}) {
     setAddressState(uf);
   }
 
-  function handleStart() {
-    // chamar o servico para atualizar os dados de endereco
-    // depois chamar o navigate e limpar o historico de activities passadas
+  async function handleStart() {
+    if (!establishmentName) return;
+
+    let establishmentStored = await AsyncStorage.getItem(
+      STORAGE_KEY_ESTABLISHMENT,
+    );
+
+    establishmentStored = JSON.parse(establishmentStored);
+
+    await updateEstablishment(
+      establishmentStored.app._id,
+      establishmentStored.google.id,
+    )(establishmentName, {
+      address_postalcode: addressPostalCode,
+      address_number: addressNumber,
+      address_name: addressName,
+      address_city: addressCity,
+      address_neighborhood: addressNeighborhood,
+      address_state: addressState,
+    });
+
     const resetNavigationActions = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({routeName: 'ManageQueue'})],
@@ -56,7 +78,16 @@ function CompleteLogin({navigation}) {
 
   return (
     <Container>
-      <Title>Informe o endereço do estabelecimento:</Title>
+      <Input
+        placeholder="Digite o nome do seu estabelecimento"
+        value={establishmentName}
+        onChangeText={text => setEstablishmentName(text)}
+      />
+
+      <Title style={{marginTop: 16}}>
+        Informe o endereço do estabelecimento:
+      </Title>
+
       <RowBetween style={{marginTop: 16, marginBottom: 16}}>
         <InputSide
           placeholder="Cep"
