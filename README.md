@@ -1,6 +1,6 @@
 # How to start App
 
-### To start your android emulator run::
+### To start your android emulator run:
 
 ```sh
 $ emulator -avd Nexus_5X_API_29_x86
