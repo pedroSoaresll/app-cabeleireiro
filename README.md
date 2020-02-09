@@ -1,3 +1,7 @@
+# Build Status
+
+![Build Status](https://build.appcenter.ms/v0.1/apps/01b891ff-8cdd-4ed2-9e9a-6e2c5ae1e3ea/branches/master/badge)
+
 # How to start App
 
 ### To start your android emulator run:
