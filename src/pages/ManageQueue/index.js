@@ -24,7 +24,6 @@ function ManageQueue() {
 
       establishmentStored = JSON.parse(establishmentStored);
 
-      console.tron.log('establishment stored', establishmentStored);
       setSession(establishmentStored);
 
       const {data} = await getQueue(establishmentStored.app._id);
