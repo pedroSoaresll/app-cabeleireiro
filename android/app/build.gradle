@@ -26,8 +26,10 @@ import com.android.build.OutputFile
  *
  * project.ext.react = [
  *   // the name of the generated asset file containing your JS bundle
- *   bundleAssetName: "index.android.bundle",
- *
+ *   bundleAssetName: "indstoreFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'hairdressers'
+            keyPassword 'android'
  *   // the entry file for bundle generation
  *   entryFile: "index.android.js",
  *
@@ -158,6 +160,13 @@ android {
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'hairdressers'
+            keyPassword 'android'
+        }
+
+        releaseStaging {
+          storeFile file('debug.keystore')
             storePassword 'android'
             keyAlias 'hairdressers'
             keyPassword 'android'
