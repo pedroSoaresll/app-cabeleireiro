@@ -38,7 +38,6 @@ function CompleteLogin({navigation}) {
     const address = await axios.get(
       `https://viacep.com.br/ws/${addressPostalCode}/json/`,
     );
-    console.tron.log(address.data);
 
     const {logradouro, bairro, localidade, uf} = address.data;
     setAddressName(logradouro);
