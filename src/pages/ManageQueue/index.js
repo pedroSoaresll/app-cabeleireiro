@@ -34,13 +34,17 @@ function ManageQueue() {
   }, []);
 
   async function handleUpdateQueue(quantity) {
-    const newQueue = parseInt(queue) + quantity;
+    try {
+      const newQueue = parseInt(queue) + quantity;
 
-    if (newQueue < 0) return;
+      if (newQueue < 0) return;
 
-    await updateQueue(session, newQueue);
+      await updateQueue(session, newQueue);
 
-    setQueue(newQueue);
+      setQueue(newQueue);
+    } catch (error) {
+      console.error('error to update', error);
+    }
   }
 
   return (
