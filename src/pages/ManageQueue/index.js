@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-community/async-storage';
-import {STORAGE_KEY_ESTABLISHMENT} from '../../async-storage';
+import {getSession} from '../../async-storage';
 import {get as getQueue, update as updateQueue} from '../../services/queue';
 
 import {
@@ -13,21 +12,18 @@ import {
 } from './styles';
 
 function ManageQueue() {
-  const [session, setSession] = useState({});
   const [queue, setQueue] = useState(0);
 
   useEffect(() => {
     async function loadEstablishment() {
-      let establishmentStored = await AsyncStorage.getItem(
-        STORAGE_KEY_ESTABLISHMENT,
-      );
+      try {
+        const session = await getSession();
+        const {data} = await getQueue(session.app._id);
 
-      establishmentStored = JSON.parse(establishmentStored);
-
-      setSession(establishmentStored);
-
-      const {data} = await getQueue(establishmentStored.app._id);
-      setQueue(data.currentQueue);
+        setQueue(data.currentQueue);
+      } catch (error) {
+        console.error('error to get session', error);
+      }
     }
 
     loadEstablishment();
@@ -35,6 +31,7 @@ function ManageQueue() {
 
   async function handleUpdateQueue(quantity) {
     try {
+      const session = await getSession();
       const newQueue = parseInt(queue) + quantity;
 
       if (newQueue < 0) return;
