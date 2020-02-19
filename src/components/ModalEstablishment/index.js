@@ -32,7 +32,7 @@ function ModalEstablishment({visible, close, queue}) {
       io.removeAllListeners();
       io.disconnect();
     }
-  }, [visible, queue.establishment._id]);
+  }, [visible, queue]);
 
   return (
     <Modal isVisible={visible} onBackdropPress={() => close()}>

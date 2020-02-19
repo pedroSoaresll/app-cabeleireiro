@@ -19,7 +19,7 @@ function LoginButton({navigation}) {
 
 LoginButton.propTypes = {
   navigation: PropTypes.shape({
-    push: PropTypes.func(),
+    push: PropTypes.func,
   }).isRequired,
 };
 
