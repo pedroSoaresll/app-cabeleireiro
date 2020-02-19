@@ -5,6 +5,7 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 import {StackActions, NavigationActions} from 'react-navigation';
+import PropTypes from 'prop-types';
 import {setSession} from '../../async-storage';
 import {create} from '../../services/establishment';
 import {mountAuthValue} from '../../utils';
@@ -12,6 +13,38 @@ import {Container, LoginText} from './styles';
 
 function Login({navigation}) {
   const [isSigninInProgress, setIsSigninInProgress] = useState(false);
+
+  async function storeAuthentication(establishment, googleSession) {
+    try {
+      const authValue = mountAuthValue(establishment, googleSession);
+      await setSession(authValue);
+    } catch (error) {
+      // console.error('error to save session', error);
+    }
+  }
+
+  function goTo(routeName) {
+    const resetNavigationAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({routeName})],
+    });
+
+    navigation.dispatch(resetNavigationAction);
+  }
+
+  function handleError(error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // user cancelled the login flow
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (e.g. sign in) is in progress already
+      setIsSigninInProgress(true);
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
+    } else {
+      // some other error happened
+      setIsSigninInProgress(false);
+    }
+  }
 
   async function handleSignIn() {
     try {
@@ -40,39 +73,6 @@ function Login({navigation}) {
     }
   }
 
-  async function storeAuthentication(establishment, googleSession) {
-    try {
-      const authValue = mountAuthValue(establishment, googleSession);
-      await setSession(authValue);
-    } catch (error) {
-      console.error('error to save session', error);
-    }
-  }
-
-  function goTo(routeName) {
-    const resetNavigationAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({routeName})],
-    });
-
-    navigation.dispatch(resetNavigationAction);
-  }
-
-  function handleError(error) {
-    console.error('erro to signin', error.message);
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation (e.g. sign in) is in progress already
-      setIsSigninInProgress(true);
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      // play services not available or outdated
-    } else {
-      // some other error happened
-      setIsSigninInProgress(false);
-    }
-  }
-
   return (
     <Container>
       <LoginText>
@@ -92,6 +92,12 @@ function Login({navigation}) {
 
 Login.navigationOptions = {
   title: 'Entrar',
+};
+
+Login.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+  }).isRequired,
 };
 
 export default Login;

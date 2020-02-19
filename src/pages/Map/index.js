@@ -2,14 +2,15 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {View, PermissionsAndroid} from 'react-native';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import PropTypes from 'prop-types';
 import api from '../../services/api';
-import {Map, MarkerIcon, SearchEstablishment} from './styles';
+import {Map, MarkerIcon} from './styles';
 import userImg from '../../assets/images/user.png';
 import ModalEstablishment from '../../components/ModalEstablishment';
 import cabeleireiroImg from '../../assets/images/cabeleireiro.png';
 import LoginButton from '../../components/LoginButton';
 
-export default function MapPage({navigation}) {
+function MapPage({navigation}) {
   const DISTANCE = 300;
 
   const delta = {
@@ -60,7 +61,7 @@ export default function MapPage({navigation}) {
     }
 
     loadUserPostition();
-  }, []);
+  }, [region]);
 
   useEffect(() => {
     async function loadEstablishmentsPosition() {
@@ -77,12 +78,9 @@ export default function MapPage({navigation}) {
     loadEstablishmentsPosition();
   }, [region]);
 
-  const handleNewRegion = useCallback(
-    region => {
-      setRegion(region);
-    },
-    [region],
-  );
+  const handleNewRegion = useCallback(newRegion => {
+    setRegion(newRegion);
+  }, []);
 
   async function loadEstablishment(establishmentId) {
     const {data} = await api.get(`/establishments/${establishmentId}/queue`);
@@ -128,3 +126,9 @@ export default function MapPage({navigation}) {
 MapPage.navigationOptions = {
   headerShown: false,
 };
+
+MapPage.propTypes = {
+  navigation: PropTypes.func.isRequired,
+};
+
+export default MapPage;

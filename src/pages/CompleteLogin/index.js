@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StackActions, NavigationActions} from 'react-navigation';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import PropTypes from 'prop-types';
 import {STORAGE_KEY_ESTABLISHMENT} from '../../async-storage';
 import {update as updateEstablishment} from '../../services/establishment';
 
@@ -149,6 +150,12 @@ function CompleteLogin({navigation}) {
 
 CompleteLogin.navigationOptions = {
   title: 'Completar cadastro',
+};
+
+CompleteLogin.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+  }).isRequired,
 };
 
 export default CompleteLogin;

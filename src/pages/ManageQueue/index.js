@@ -22,7 +22,7 @@ function ManageQueue() {
 
         setQueue(data.currentQueue);
       } catch (error) {
-        console.error('error to get session', error);
+        // console.error('error to get session', error);
       }
     }
 
@@ -32,7 +32,7 @@ function ManageQueue() {
   async function handleUpdateQueue(quantity) {
     try {
       const session = await getSession();
-      const newQueue = parseInt(queue) + quantity;
+      const newQueue = parseInt(queue, 10) + quantity;
 
       if (newQueue < 0) return;
 
@@ -40,7 +40,7 @@ function ManageQueue() {
 
       setQueue(newQueue);
     } catch (error) {
-      console.error('error to update', error);
+      // console.error('error to update', error);
     }
   }
 
