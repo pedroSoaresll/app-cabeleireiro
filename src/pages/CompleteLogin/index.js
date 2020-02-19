@@ -107,7 +107,7 @@ function CompleteLogin({navigation}) {
       </RowBetween>
 
       <CustomButton
-        enabled={true}
+        enabled
         onPress={handleSearchAddress}
         style={{backgroundColor: '#42A5F5'}}>
         <CustomButtonText>Procurar Endereço</CustomButtonText>
