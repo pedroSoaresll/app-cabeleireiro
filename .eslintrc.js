@@ -15,7 +15,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', 'react-hooks', 'jsx-a11y'],
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': [
@@ -30,5 +30,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'no-underscore-dangle': 'off',
   },
 };

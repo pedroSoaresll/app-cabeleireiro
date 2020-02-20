@@ -2,14 +2,17 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {View, PermissionsAndroid} from 'react-native';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import PropTypes from 'prop-types';
+
 import api from '../../services/api';
-import {Map, MarkerIcon, SearchEstablishment} from './styles';
+import {Map, MarkerIcon} from './styles';
 import userImg from '../../assets/images/user.png';
 import ModalEstablishment from '../../components/ModalEstablishment';
 import cabeleireiroImg from '../../assets/images/cabeleireiro.png';
 import LoginButton from '../../components/LoginButton';
+import ErrorState from '../../components/ErrorState';
 
-export default function MapPage({navigation}) {
+function MapPage({navigation}) {
   const DISTANCE = 300;
 
   const delta = {
@@ -18,45 +21,61 @@ export default function MapPage({navigation}) {
   };
 
   const [visible, setVisible] = useState(false);
-
   const [userRegion, setUserRegion] = useState({
     ...delta,
-    latitude: -10,
-    longitude: -10,
+    latitude: -10.0,
+    longitude: -10.0,
   });
-
   const [region, setRegion] = useState({
     ...delta,
     longitude: -10.0,
     latitude: -10.0,
   });
-
   const [establishments, setEstablishments] = useState([]);
-
   const [queue, setQueue] = useState({});
+  const [errorState, setErrorState] = useState(false);
+
+  function getLocationPermission() {
+    return PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+    );
+  }
 
   useEffect(() => {
-    function getLocationPermission() {
-      return PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-    }
-
     async function loadUserPostition() {
-      const granted = await getLocationPermission();
+      try {
+        setErrorState(false);
 
-      if (granted !== PermissionsAndroid.RESULTS.GRANTED) return;
+        const granted = await getLocationPermission();
 
-      Geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
-        const newRegion = {
-          ...region,
-          latitude,
-          longitude,
-        };
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          throw new Error('Hasnt location permission');
+        }
 
-        setUserRegion(newRegion);
-        setRegion(newRegion);
-      });
+        Geolocation.getCurrentPosition(
+          ({coords: {latitude, longitude}}) => {
+            const newRegion = {
+              longitudeDelta: 0.003,
+              latitudeDelta: 0.003,
+              latitude,
+              longitude,
+            };
+
+            setUserRegion(newRegion);
+            setRegion(newRegion);
+          },
+          () => {
+            setErrorState(true);
+          },
+          {
+            timeout: 5000,
+            enableHighAccuracy: true,
+          },
+        );
+      } catch (e) {
+        setErrorState(true);
+      }
     }
 
     loadUserPostition();
@@ -77,12 +96,9 @@ export default function MapPage({navigation}) {
     loadEstablishmentsPosition();
   }, [region]);
 
-  const handleNewRegion = useCallback(
-    region => {
-      setRegion(region);
-    },
-    [region],
-  );
+  const handleNewRegion = useCallback(newRegion => {
+    setRegion(newRegion);
+  }, []);
 
   async function loadEstablishment(establishmentId) {
     const {data} = await api.get(`/establishments/${establishmentId}/queue`);
@@ -90,41 +106,55 @@ export default function MapPage({navigation}) {
     setVisible(true);
   }
 
-  return (
-    <View>
-      <Map region={region} onRegionChangeComplete={handleNewRegion}>
-        <Marker coordinate={userRegion}>
-          <MarkerIcon source={userImg} />
-        </Marker>
+  function mapRender() {
+    return (
+      <View>
+        <Map region={region} onRegionChangeComplete={handleNewRegion}>
+          <Marker coordinate={userRegion}>
+            <MarkerIcon source={userImg} />
+          </Marker>
 
-        {establishments.map(
-          ({
-            establishmentId,
-            location: {
-              coordinates: [estabLat, estabLong],
-            },
-          }) => (
-            <Marker
-              key={estabLat + estabLong}
-              coordinate={{latitude: estabLat, longitude: estabLong}}
-              onPress={() => loadEstablishment(establishmentId)}>
-              <MarkerIcon source={cabeleireiroImg} />
-            </Marker>
-          ),
-        )}
-      </Map>
+          {establishments.map(
+            ({
+              establishmentId,
+              location: {
+                coordinates: [estabLat, estabLong],
+              },
+            }) => (
+              <Marker
+                key={estabLat + estabLong}
+                coordinate={{latitude: estabLat, longitude: estabLong}}
+                onPress={() => loadEstablishment(establishmentId)}>
+                <MarkerIcon source={cabeleireiroImg} />
+              </Marker>
+            ),
+          )}
+        </Map>
 
-      <ModalEstablishment
-        visible={visible}
-        queue={queue}
-        close={() => setVisible(false)}
-      />
-      {/* <SearchEstablishment /> */}
-      <LoginButton navigation={navigation} />
-    </View>
-  );
+        <ModalEstablishment
+          visible={visible}
+          queue={queue}
+          close={() => setVisible(false)}
+        />
+        {/* <SearchEstablishment /> */}
+        <LoginButton navigation={navigation} />
+      </View>
+    );
+  }
+
+  function errorStateRender() {
+    return <ErrorState navigation={navigation} />;
+  }
+
+  return (!errorState && mapRender()) || (errorState && errorStateRender());
 }
 
 MapPage.navigationOptions = {
   headerShown: false,
 };
+
+MapPage.propTypes = {
+  navigation: PropTypes.func.isRequired,
+};
+
+export default MapPage;

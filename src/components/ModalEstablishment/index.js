@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
+import PropTypes from 'prop-types';
 import establishmentImg from '../../assets/images/establishment.jpeg';
 import io from '../../libs/socket-io';
 
@@ -11,9 +12,9 @@ import {
   EstablishmentName,
   EstablishmentQueue,
   EstablishmentStatusOperation,
-} from './styles.js';
+} from './styles';
 
-export default function ModalEstablishment({visible, close, queue}) {
+function ModalEstablishment({visible, close, queue}) {
   const [currentQueue, setCurrentQueue] = useState(0);
   useEffect(() => {
     if (!queue.establishment) return;
@@ -31,7 +32,7 @@ export default function ModalEstablishment({visible, close, queue}) {
       io.removeAllListeners();
       io.disconnect();
     }
-  }, [visible]);
+  }, [visible, queue]);
 
   return (
     <Modal isVisible={visible} onBackdropPress={() => close()}>
@@ -48,3 +49,16 @@ export default function ModalEstablishment({visible, close, queue}) {
     </Modal>
   );
 }
+
+ModalEstablishment.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired,
+  queue: PropTypes.shape({
+    establishment: PropTypes.shape({
+      _id: PropTypes.string,
+    }),
+    currentQueue: PropTypes.number,
+  }).isRequired,
+};
+
+export default ModalEstablishment;

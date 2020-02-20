@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {AreaLoginButton, ButtonLogin, TextButtonLogin} from './styles';
 
-export default function LoginButton({navigation}) {
+function LoginButton({navigation}) {
   function handleLogin() {
     navigation.push('Login');
   }
@@ -15,3 +16,11 @@ export default function LoginButton({navigation}) {
     </AreaLoginButton>
   );
 }
+
+LoginButton.propTypes = {
+  navigation: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+export default LoginButton;
