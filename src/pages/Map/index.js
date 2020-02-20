@@ -53,7 +53,7 @@ function MapPage({navigation}) {
           throw new Error('Hasnt location permission');
         }
 
-        Geolocation.getCurrentPosition(
+        Geolocation.watchPosition(
           ({coords: {latitude, longitude}}) => {
             const newRegion = {
               longitudeDelta: 0.003,
@@ -70,7 +70,7 @@ function MapPage({navigation}) {
           },
           {
             timeout: 10000,
-            maximumAge: 0,
+            maximumAge: 1000,
             enableHighAccuracy: true,
           },
         );
@@ -80,6 +80,10 @@ function MapPage({navigation}) {
     }
 
     loadUserPostition();
+
+    return () => {
+      Geolocation.clearWatch();
+    };
   }, []);
 
   useEffect(() => {
