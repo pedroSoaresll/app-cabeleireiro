@@ -69,7 +69,8 @@ function MapPage({navigation}) {
             setErrorState(true);
           },
           {
-            timeout: 5000,
+            timeout: 10000,
+            maximumAge: 0,
             enableHighAccuracy: true,
           },
         );

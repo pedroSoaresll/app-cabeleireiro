@@ -23,6 +23,7 @@ export const Title = styled.Text`
 
 export const SubTitle = styled.Text`
   font-size: 16px;
+  text-align: center;
 `;
 
 export const ActiveGPSButton = styled(RectButton)`
