@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, PermissionsAndroid} from 'react-native';
+import {View, PermissionsAndroid} from 'react-native';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import api from '../../services/api';
 import {Map, MarkerIcon} from './styles';
@@ -11,6 +10,7 @@ import userImg from '../../assets/images/user.png';
 import ModalEstablishment from '../../components/ModalEstablishment';
 import cabeleireiroImg from '../../assets/images/cabeleireiro.png';
 import LoginButton from '../../components/LoginButton';
+import ErrorState from '../../components/ErrorState';
 
 function MapPage({navigation}) {
   const DISTANCE = 300;
@@ -23,8 +23,8 @@ function MapPage({navigation}) {
   const [visible, setVisible] = useState(false);
   const [userRegion, setUserRegion] = useState({
     ...delta,
-    latitude: -10,
-    longitude: -10,
+    latitude: -10.0,
+    longitude: -10.0,
   });
   const [region, setRegion] = useState({
     ...delta,
@@ -35,24 +35,29 @@ function MapPage({navigation}) {
   const [queue, setQueue] = useState({});
   const [errorState, setErrorState] = useState(false);
 
-  useEffect(() => {
-    function getLocationPermission() {
-      return PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-    }
+  function getLocationPermission() {
+    return PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+    );
+  }
 
+  useEffect(() => {
     async function loadUserPostition() {
       try {
+        setErrorState(false);
+
         const granted = await getLocationPermission();
 
-        if (granted !== PermissionsAndroid.RESULTS.GRANTED) return;
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          throw new Error('Hasnt location permission');
+        }
 
         Geolocation.getCurrentPosition(
           ({coords: {latitude, longitude}}) => {
-            setErrorState(false);
             const newRegion = {
-              ...region,
+              longitudeDelta: 0.003,
+              latitudeDelta: 0.003,
               latitude,
               longitude,
             };
@@ -63,12 +68,20 @@ function MapPage({navigation}) {
           () => {
             setErrorState(true);
           },
+          {
+            timeout: 5000,
+            enableHighAccuracy: true,
+          },
         );
       } catch (e) {
         setErrorState(true);
       }
     }
 
+    loadUserPostition();
+  }, []);
+
+  useEffect(() => {
     async function loadEstablishmentsPosition() {
       const coordinate = `${region.latitude},${region.longitude}`;
       const {data} = await api.get(
@@ -80,7 +93,6 @@ function MapPage({navigation}) {
       setEstablishments(data);
     }
 
-    loadUserPostition();
     loadEstablishmentsPosition();
   }, [region]);
 
@@ -131,11 +143,7 @@ function MapPage({navigation}) {
   }
 
   function errorStateRender() {
-    return (
-      <View>
-        <Text style={{marginTop: 50, color: '#333'}}>Error State Here</Text>
-      </View>
-    );
+    return <ErrorState navigation={navigation} />;
   }
 
   return (!errorState && mapRender()) || (errorState && errorStateRender());
